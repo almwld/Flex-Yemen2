@@ -28,9 +28,10 @@ class _MainNavigationState extends State<MainNavigation> {
     HomeScreen(),
     AllAdsScreen(),
     InteractiveMapScreen(),
-    WalletScreen(), // Index 3
-    ChatScreen(),
-    ProfileScreen(), // Index 5
+    SizedBox(), // Placeholder for FAB
+    WalletScreen(), // Index 4
+    ChatScreen(), // Index 5
+    ProfileScreen(), // Index 6
   ];
 
   @override
@@ -45,6 +46,11 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   void _onItemTapped(int index) {
+    if (index == 3) {
+      _showQuickActionsSheet();
+      return;
+    }
+
     // تم إصلاح منطق التحقق من الـ Index ليتوافق مع الـ Indexes الحقيقية
     setState(() {
       _currentIndex = index;
@@ -393,9 +399,9 @@ class _MainNavigationState extends State<MainNavigation> {
                       curve: Curves.easeInOut,
                     ),
                 // تم إصلاح الـ Indexes وتحديث أيقونات SVG
-                _buildNavItem('assets/icons/svg/wallet.svg', 'المحفظة', 3), // Index 3
-                _buildNavItem('assets/icons/svg/chat.svg', 'الدردشة', 4), // Index 4
-                _buildNavItem('assets/icons/svg/profile.svg', 'حسابي', 5), // Index 5
+                _buildNavItem('assets/icons/svg/wallet.svg', 'المحفظة', 4), // Index 4
+                _buildNavItem('assets/icons/svg/chat.svg', 'الدردشة', 5), // Index 5
+                _buildNavItem('assets/icons/svg/profile.svg', 'حسابي', 6), // Index 6
               ],
             ),
           ),
