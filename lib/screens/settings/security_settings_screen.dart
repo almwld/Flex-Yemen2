@@ -8,21 +8,67 @@ class SecuritySettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       backgroundColor: isDark ? AppTheme.darkBackground : AppTheme.lightBackground,
-      appBar: const SimpleAppBar(title: 'إعدادات الأمان'),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.settings, size: 80, color: AppTheme.goldColor.withOpacity(0.5)),
-            const SizedBox(height: 16),
-            const Text('إعدادات الأمان', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            Text('سيتم إضافة هذه الميزة قريباً', style: TextStyle(color: AppTheme.getSecondaryTextColor(context))),
-          ],
+      appBar: const SimpleAppBar(title: 'الأمان'),
+      body: ListView(
+        children: [
+          _buildSection('حماية الحساب'),
+          _buildItem(context, Icons.lock, 'تغيير كلمة المرور', () {
+            Navigator.pushNamed(context, '/change_password');
+          }),
+          _buildItem(context, Icons.fingerprint, 'المصادقة البيومترية', () {
+            Navigator.pushNamed(context, '/biometric_auth');
+          }),
+          _buildItem(context, Icons.phone_android, 'الأجهزة المتصلة', () {
+            Navigator.pushNamed(context, '/connected_devices');
+          }),
+          _buildItem(context, Icons.history, 'سجل تسجيل الدخول', () {
+            Navigator.pushNamed(context, '/login_history');
+          }),
+          
+          _buildSection('الخصوصية'),
+          _buildItem(context, Icons.visibility_off, 'إعدادات الخصوصية', () {
+            Navigator.pushNamed(context, '/privacy_settings');
+          }),
+          _buildItem(context, Icons.block, 'الحظر', () {}),
+          _buildItem(context, Icons.report, 'الإبلاغ', () {}),
+          
+          _buildSection('المصادقة الثنائية'),
+          SwitchListTile(
+            secondary: const Icon(Icons.security, color: AppTheme.goldColor),
+            title: const Text('تفعيل 2FA'),
+            subtitle: const Text('حماية إضافية للحساب'),
+            value: false,
+            onChanged: (v) {},
+            activeColor: AppTheme.goldColor,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSection(String title) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: AppTheme.goldColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
         ),
       ),
+    );
+  }
+
+  Widget _buildItem(BuildContext context, IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: AppTheme.goldColor),
+      title: Text(title),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      onTap: onTap,
     );
   }
 }

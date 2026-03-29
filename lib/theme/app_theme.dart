@@ -2,162 +2,78 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // الألوان الأساسية
+  // اللون الذهبي الأصلي الصافي (Pure Gold)
+  static const Color goldColor = Color(0xFFFFD700);      // ذهبي صافي
+  static const Color goldLight = Color(0xFFFFE135);      // ذهبي فاتح
+  static const Color goldDark = Color(0xFFB8860B);       // ذهبي داكن (GoldenRod)
+  static const Color goldAccent = Color(0xFFFFC125);     // ذهبي برتقالي
+  
+  // ألوان أخرى
   static const Color primaryColor = Color(0xFF1E88E5);
   static const Color secondaryColor = Color(0xFF43A047);
   static const Color accentColor = Color(0xFFFFB300);
-  static const Color goldColor = Color(0xFFFFD700);
-  static const Color goldLight = Color(0xFFFFE066);
-  static const Color goldDark = Color(0xFFFFA000);  // ذهبي داكن
   
-  // ألوان الخلفيات
+  // الخلفيات
   static const Color darkBackground = Color(0xFF121212);
   static const Color lightBackground = Color(0xFFF5F5F5);
-  
-  // ألوان السطح (البطاقات)
   static const Color darkSurface = Color(0xFF1E1E1E);
   static const Color lightSurface = Colors.white;
   
-  // ألوان النصوص
+  // النصوص
   static const Color darkText = Color(0xFF212121);
   static const Color darkTextSecondary = Color(0xFF757575);
   static const Color lightText = Color(0xFFFFFFFF);
-  static const Color lightTextSecondary = Color(0xFFBDBDBD);
+  static const Color lightTextSecondary = Color(0xFFB0B0B0);
   
-  // ألوان الحالات
+  // الحالات
   static const Color error = Color(0xFFE53935);
   static const Color success = Color(0xFF43A047);
   static const Color warning = Color(0xFFFFB300);
   static const Color info = Color(0xFF1E88E5);
 
-  // دوال مساعدة للحصول على الألوان حسب الثيم
   static Color getCardColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
-        ? darkSurface 
-        : lightSurface;
+        ? darkSurface : lightSurface;
   }
 
   static Color getTextColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
-        ? lightText 
-        : darkText;
+        ? lightText : darkText;
   }
 
   static Color getSecondaryTextColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
-        ? lightTextSecondary 
-        : darkTextSecondary;
-  }
-
-  static Color getBackgroundColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark 
-        ? darkBackground 
-        : lightBackground;
-  }
-
-  static Color getSurfaceColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark 
-        ? darkSurface 
-        : lightSurface;
+        ? lightTextSecondary : darkTextSecondary;
   }
 
   static Color getDividerColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
-        ? const Color(0xFF424242) 
-        : const Color(0xFFE0E0E0);
+        ? const Color(0xFF424242) : const Color(0xFFE0E0E0);
   }
 
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      primaryColor: primaryColor,
+      primaryColor: goldColor,
       scaffoldBackgroundColor: lightBackground,
       colorScheme: const ColorScheme.light(
-        primary: primaryColor,
-        secondary: secondaryColor,
+        primary: goldColor,
+        secondary: goldDark,
         surface: lightSurface,
         background: lightBackground,
         error: error,
-        onPrimary: Colors.white,
+        onPrimary: Colors.black,
         onSecondary: Colors.white,
         onSurface: darkText,
         onBackground: darkText,
-        onError: Colors.white,
       ),
-      cardTheme: CardTheme(
-        elevation: 2,
-        color: lightSurface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
+      textTheme: GoogleFonts.changaTextTheme(ThemeData.light().textTheme),
       appBarTheme: const AppBarTheme(
+        backgroundColor: goldColor,
+        foregroundColor: Colors.black,
         elevation: 0,
         centerTitle: true,
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.white,
-      ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Colors.white,
-        selectedItemColor: primaryColor,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-      ),
-      dividerTheme: const DividerThemeData(
-        color: Color(0xFFE0E0E0),
-        thickness: 1,
-      ),
-      textTheme: TextTheme(
-        displayLarge: GoogleFonts.changa(fontSize: 32, fontWeight: FontWeight.bold, color: darkText),
-        displayMedium: GoogleFonts.changa(fontSize: 28, fontWeight: FontWeight.bold, color: darkText),
-        displaySmall: GoogleFonts.changa(fontSize: 24, fontWeight: FontWeight.bold, color: darkText),
-        headlineLarge: GoogleFonts.changa(fontSize: 22, fontWeight: FontWeight.w600, color: darkText),
-        headlineMedium: GoogleFonts.changa(fontSize: 20, fontWeight: FontWeight.w600, color: darkText),
-        headlineSmall: GoogleFonts.changa(fontSize: 18, fontWeight: FontWeight.w600, color: darkText),
-        titleLarge: GoogleFonts.changa(fontSize: 16, fontWeight: FontWeight.w600, color: darkText),
-        titleMedium: GoogleFonts.changa(fontSize: 14, fontWeight: FontWeight.w500, color: darkText),
-        titleSmall: GoogleFonts.changa(fontSize: 12, fontWeight: FontWeight.w500, color: darkTextSecondary),
-        bodyLarge: GoogleFonts.changa(fontSize: 16, color: darkText),
-        bodyMedium: GoogleFonts.changa(fontSize: 14, color: darkText),
-        bodySmall: GoogleFonts.changa(fontSize: 12, color: darkTextSecondary),
-        labelLarge: GoogleFonts.changa(fontSize: 14, fontWeight: FontWeight.w500, color: darkText),
-        labelMedium: GoogleFonts.changa(fontSize: 12, fontWeight: FontWeight.w500, color: darkTextSecondary),
-        labelSmall: GoogleFonts.changa(fontSize: 10, fontWeight: FontWeight.w500, color: darkTextSecondary),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: primaryColor, width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: error),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: error, width: 2),
-        ),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        ),
       ),
     );
   }
@@ -166,93 +82,25 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      primaryColor: primaryColor,
+      primaryColor: goldColor,
       scaffoldBackgroundColor: darkBackground,
       colorScheme: const ColorScheme.dark(
-        primary: primaryColor,
-        secondary: secondaryColor,
+        primary: goldColor,
+        secondary: goldLight,
         surface: darkSurface,
         background: darkBackground,
         error: error,
-        onPrimary: Colors.white,
-        onSecondary: Colors.white,
+        onPrimary: Colors.black,
+        onSecondary: Colors.black,
         onSurface: lightText,
         onBackground: lightText,
-        onError: Colors.white,
       ),
-      cardTheme: CardTheme(
-        elevation: 2,
-        color: darkSurface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
+      textTheme: GoogleFonts.changaTextTheme(ThemeData.dark().textTheme),
       appBarTheme: const AppBarTheme(
+        backgroundColor: darkSurface,
+        foregroundColor: goldColor,
         elevation: 0,
         centerTitle: true,
-        backgroundColor: darkSurface,
-        foregroundColor: Colors.white,
-      ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: darkSurface,
-        selectedItemColor: primaryColor,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-      ),
-      dividerTheme: const DividerThemeData(
-        color: Color(0xFF424242),
-        thickness: 1,
-      ),
-      textTheme: TextTheme(
-        displayLarge: GoogleFonts.changa(fontSize: 32, fontWeight: FontWeight.bold, color: lightText),
-        displayMedium: GoogleFonts.changa(fontSize: 28, fontWeight: FontWeight.bold, color: lightText),
-        displaySmall: GoogleFonts.changa(fontSize: 24, fontWeight: FontWeight.bold, color: lightText),
-        headlineLarge: GoogleFonts.changa(fontSize: 22, fontWeight: FontWeight.w600, color: lightText),
-        headlineMedium: GoogleFonts.changa(fontSize: 20, fontWeight: FontWeight.w600, color: lightText),
-        headlineSmall: GoogleFonts.changa(fontSize: 18, fontWeight: FontWeight.w600, color: lightText),
-        titleLarge: GoogleFonts.changa(fontSize: 16, fontWeight: FontWeight.w600, color: lightText),
-        titleMedium: GoogleFonts.changa(fontSize: 14, fontWeight: FontWeight.w500, color: lightText),
-        titleSmall: GoogleFonts.changa(fontSize: 12, fontWeight: FontWeight.w500, color: lightTextSecondary),
-        bodyLarge: GoogleFonts.changa(fontSize: 16, color: lightText),
-        bodyMedium: GoogleFonts.changa(fontSize: 14, color: lightText),
-        bodySmall: GoogleFonts.changa(fontSize: 12, color: lightTextSecondary),
-        labelLarge: GoogleFonts.changa(fontSize: 14, fontWeight: FontWeight.w500, color: lightText),
-        labelMedium: GoogleFonts.changa(fontSize: 12, fontWeight: FontWeight.w500, color: lightTextSecondary),
-        labelSmall: GoogleFonts.changa(fontSize: 10, fontWeight: FontWeight.w500, color: lightTextSecondary),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: const Color(0xFF2C2C2C),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: primaryColor, width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: error),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: error, width: 2),
-        ),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        ),
       ),
     );
   }

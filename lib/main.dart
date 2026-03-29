@@ -9,7 +9,7 @@ import 'services/connection_checker.dart';
 import 'services/cache/local_storage_service.dart';
 import 'theme/app_theme.dart';
 
-// Screens
+// Screens - Main
 import 'screens/splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
@@ -48,6 +48,7 @@ import 'screens/settings/language_screen.dart';
 import 'screens/settings/payment_methods_screen.dart';
 import 'screens/settings/about_screen.dart';
 import 'screens/settings/help_support_screen.dart';
+import 'screens/settings/account_settings_screen.dart';
 import 'screens/garden_screen.dart';
 import 'screens/map/interactive_map_screen.dart';
 import 'screens/map/nearby_stores_screen.dart';
@@ -273,7 +274,7 @@ class MyApp extends StatelessWidget {
               '/chat': (context) => const ChatScreen(),
               '/chat_detail': (context) => const ChatDetailScreen(),
               '/profile': (context) => const ProfileScreen(),
-              '/account_info': (context) => const AccountInfoScreen(),
+              '/account_info': (context) => const AccountSettingsScreen(),
               '/my_ads': (context) => const MyAdsScreen(),
               '/favorites': (context) => const FavoritesScreen(),
               '/my_orders': (context) => const MyOrdersScreen(),
@@ -294,6 +295,7 @@ class MyApp extends StatelessWidget {
               '/language': (context) => const LanguageScreen(),
               '/payment_methods': (context) => const PaymentMethodsScreen(),
               '/about': (context) => const AboutScreen(),
+              '/help_support': (context) => const HelpSupportScreen(),
               '/garden': (context) => const GardenScreen(),
               '/map': (context) => const InteractiveMapScreen(),
               '/nearby_stores': (context) => const NearbyStoresScreen(),
