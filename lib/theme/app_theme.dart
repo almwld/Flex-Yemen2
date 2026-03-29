@@ -6,37 +6,58 @@ class AppTheme {
   static const Color primaryColor = Color(0xFF1E88E5);
   static const Color secondaryColor = Color(0xFF43A047);
   static const Color accentColor = Color(0xFFFFB300);
-  static const Color goldColor = Color(0xFFFFD700);  // إضافة اللون الذهبي
+  static const Color goldColor = Color(0xFFFFD700);
+  static const Color goldLight = Color(0xFFFFE066);  // ذهبي فاتح
   
   // ألوان الخلفيات
-  static const Color darkBackground = Color(0xFF121212);    // خلفية داكنة
-  static const Color lightBackground = Color(0xFFF5F5F5);   // خلفية فاتحة
+  static const Color darkBackground = Color(0xFF121212);
+  static const Color lightBackground = Color(0xFFF5F5F5);
+  
+  // ألوان السطح (البطاقات)
+  static const Color darkSurface = Color(0xFF1E1E1E);
+  static const Color lightSurface = Colors.white;
   
   // ألوان النصوص
   static const Color darkText = Color(0xFF212121);
   static const Color darkTextSecondary = Color(0xFF757575);
   static const Color lightText = Color(0xFFFFFFFF);
   static const Color lightTextSecondary = Color(0xFFBDBDBD);
+  
+  // ألوان الحالات
+  static const Color error = Color(0xFFE53935);      // خطأ
+  static const Color success = Color(0xFF43A047);    // نجاح
+  static const Color warning = Color(0xFFFFB300);    // تحذير
+  static const Color info = Color(0xFF1E88E5);       // معلومات
 
-  // دالة للحصول على لون البطاقة حسب الثيم
+  // دوال مساعدة للحصول على الألوان حسب الثيم
   static Color getCardColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
-        ? const Color(0xFF1E1E1E) 
-        : Colors.white;
+        ? darkSurface 
+        : lightSurface;
   }
 
-  // دالة للحصول على لون النص الرئيسي حسب الثيم
   static Color getTextColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
         ? lightText 
         : darkText;
   }
 
-  // دالة للحصول على لون النص الثانوي حسب الثيم
   static Color getSecondaryTextColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
         ? lightTextSecondary 
         : darkTextSecondary;
+  }
+
+  static Color getBackgroundColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? darkBackground 
+        : lightBackground;
+  }
+
+  static Color getSurfaceColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? darkSurface 
+        : lightSurface;
   }
 
   static ThemeData get lightTheme {
@@ -48,16 +69,18 @@ class AppTheme {
       colorScheme: const ColorScheme.light(
         primary: primaryColor,
         secondary: secondaryColor,
-        surface: Colors.white,
+        surface: lightSurface,
         background: lightBackground,
+        error: error,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: darkText,
         onBackground: darkText,
+        onError: Colors.white,
       ),
       cardTheme: CardTheme(
         elevation: 2,
-        color: Colors.white,
+        color: lightSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -106,6 +129,14 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: primaryColor, width: 2),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: error, width: 2),
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -129,16 +160,18 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(
         primary: primaryColor,
         secondary: secondaryColor,
-        surface: Color(0xFF1E1E1E),
+        surface: darkSurface,
         background: darkBackground,
+        error: error,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: lightText,
         onBackground: lightText,
+        onError: Colors.white,
       ),
       cardTheme: CardTheme(
         elevation: 2,
-        color: const Color(0xFF1E1E1E),
+        color: darkSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -146,11 +179,11 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Color(0xFF1E1E1E),
+        backgroundColor: darkSurface,
         foregroundColor: Colors.white,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Color(0xFF1E1E1E),
+        backgroundColor: darkSurface,
         selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
@@ -186,6 +219,14 @@ class AppTheme {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: primaryColor, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: error, width: 2),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
