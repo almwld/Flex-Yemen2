@@ -2,33 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
+  // الألوان الأساسية
   static const Color primaryColor = Color(0xFF1E88E5);
   static const Color secondaryColor = Color(0xFF43A047);
   static const Color accentColor = Color(0xFFFFB300);
+  static const Color goldColor = Color(0xFFFFD700);  // إضافة اللون الذهبي
   
+  // ألوان الخلفيات
+  static const Color darkBackground = Color(0xFF121212);    // خلفية داكنة
+  static const Color lightBackground = Color(0xFFF5F5F5);   // خلفية فاتحة
+  
+  // ألوان النصوص
   static const Color darkText = Color(0xFF212121);
   static const Color darkTextSecondary = Color(0xFF757575);
   static const Color lightText = Color(0xFFFFFFFF);
   static const Color lightTextSecondary = Color(0xFFBDBDBD);
+
+  // دالة للحصول على لون البطاقة حسب الثيم
+  static Color getCardColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? const Color(0xFF1E1E1E) 
+        : Colors.white;
+  }
+
+  // دالة للحصول على لون النص الرئيسي حسب الثيم
+  static Color getTextColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? lightText 
+        : darkText;
+  }
+
+  // دالة للحصول على لون النص الثانوي حسب الثيم
+  static Color getSecondaryTextColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? lightTextSecondary 
+        : darkTextSecondary;
+  }
 
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
       primaryColor: primaryColor,
+      scaffoldBackgroundColor: lightBackground,
       colorScheme: const ColorScheme.light(
         primary: primaryColor,
         secondary: secondaryColor,
         surface: Colors.white,
-        background: Color(0xFFF5F5F5),
+        background: lightBackground,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: darkText,
         onBackground: darkText,
       ),
-      scaffoldBackgroundColor: const Color(0xFFF5F5F5),
       cardTheme: CardTheme(
         elevation: 2,
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -96,17 +125,17 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       primaryColor: primaryColor,
+      scaffoldBackgroundColor: darkBackground,
       colorScheme: const ColorScheme.dark(
         primary: primaryColor,
         secondary: secondaryColor,
         surface: Color(0xFF1E1E1E),
-        background: Color(0xFF121212),
+        background: darkBackground,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: lightText,
         onBackground: lightText,
       ),
-      scaffoldBackgroundColor: const Color(0xFF121212),
       cardTheme: CardTheme(
         elevation: 2,
         color: const Color(0xFF1E1E1E),
