@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class ConnectionChecker extends ChangeNotifier {
   final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult>? _connectivitySubscription;
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
   bool _isOnline = true;
   bool _isChecking = false;
@@ -19,8 +19,8 @@ class ConnectionChecker extends ChangeNotifier {
 
   Future<void> _initConnectivity() async {
     try {
-      final result = await _connectivity.checkConnectivity();
-      await _updateConnectionStatus(result);
+      final results = await _connectivity.checkConnectivity();
+      await _updateConnectionStatus(results);
     } catch (e) {
       debugPrint('Connectivity check error: $e');
     }
@@ -28,13 +28,16 @@ class ConnectionChecker extends ChangeNotifier {
 
   void _startMonitoring() {
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
-      _updateConnectionStatus,
+      (List<ConnectivityResult> results) {
+        _updateConnectionStatus(results);
+      },
     );
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> results) async {
     final wasOnline = _isOnline;
-    _isOnline = result != ConnectivityResult.none;
+    // تحديث: التحقق إذا كانت القائمة تحتوي على اتصال فعلي
+    _isOnline = !results.contains(ConnectivityResult.none);
 
     if (_isOnline != wasOnline) {
       notifyListeners();
@@ -42,8 +45,8 @@ class ConnectionChecker extends ChangeNotifier {
   }
 
   Future<void> forceCheck() async {
-    final result = await _connectivity.checkConnectivity();
-    await _updateConnectionStatus(result);
+    final results = await _connectivity.checkConnectivity();
+    await _updateConnectionStatus(results);
   }
 
   @override
@@ -53,10 +56,8 @@ class ConnectionChecker extends ChangeNotifier {
   }
 }
 
-// Connection Status Widget
 class ConnectionStatusBar extends StatelessWidget {
   const ConnectionStatusBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -66,10 +67,8 @@ class ConnectionStatusBar extends StatelessWidget {
   }
 }
 
-// Offline Indicator
 class OfflineIndicator extends StatelessWidget {
   const OfflineIndicator({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(

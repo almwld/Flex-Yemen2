@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_button.dart';
 import '../providers/auth_provider.dart';
+import '../models/user_model.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,33 +28,30 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     setState(() => _isLoading = true);
-
-    // Simulate login
     await Future.delayed(const Duration(seconds: 2));
 
+    // إنشاء بيانات المستخدم بتنسيق متوافق مع UserModel
     final userData = {
-      'name': 'أحمد محمد',
+      'id': 'temp_id_123',
+      'full_name': 'أحمد محمد',
       'email': _emailController.text,
-      'avatar': null,
       'phone': '777123456',
+      'user_type': 'customer',
     };
 
     if (!mounted) return;
 
-    await context.read<AuthProvider>().login(userData);
+    // إصلاح الخطأ: تمرير كائن UserModel بدلاً من Map
+    await context.read<AuthProvider>().login(UserModel.fromJson(userData));
 
     Navigator.pushReplacementNamed(context, '/main');
   }
 
   Future<void> _loginAsGuest() async {
     setState(() => _isLoading = true);
-
     await Future.delayed(const Duration(seconds: 1));
-
     if (!mounted) return;
-
     await context.read<AuthProvider>().loginAsGuest();
-
     Navigator.pushReplacementNamed(context, '/main');
   }
 
@@ -70,8 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 40),
-
-              // Logo
               Container(
                 width: 100,
                 height: 100,
@@ -82,13 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: const Icon(Icons.shopping_bag, size: 50, color: Colors.black),
-              )
-                  .animate()
-                  .scale(duration: 600.ms, curve: Curves.easeOutBack),
-
+              ).animate().scale(duration: 600.ms, curve: Curves.easeOutBack),
               const SizedBox(height: 32),
-
-              // Title
               Text(
                 'تسجيل الدخول',
                 style: TextStyle(
@@ -97,26 +88,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontWeight: FontWeight.bold,
                   color: AppTheme.getTextColor(context),
                 ),
-              )
-                  .animate()
-                  .fadeIn(delay: 200.ms)
-                  .slideY(begin: 0.2, end: 0, delay: 200.ms),
-
+              ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0, delay: 200.ms),
               const SizedBox(height: 8),
-
               Text(
                 'أهلاً بعودتك! سجل دخول للمتابعة',
                 style: TextStyle(
                   fontSize: 14,
                   color: AppTheme.getSecondaryTextColor(context),
                 ),
-              )
-                  .animate()
-                  .fadeIn(delay: 300.ms),
-
+              ).animate().fadeIn(delay: 300.ms),
               const SizedBox(height: 40),
-
-              // Email Field
               TextField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -130,14 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderSide: BorderSide.none,
                   ),
                 ),
-              )
-                  .animate()
-                  .fadeIn(delay: 400.ms)
-                  .slideX(begin: -0.2, end: 0, delay: 400.ms),
-
+              ).animate().fadeIn(delay: 400.ms).slideX(begin: -0.2, end: 0, delay: 400.ms),
               const SizedBox(height: 16),
-
-              // Password Field
               TextField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
@@ -145,9 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'كلمة المرور',
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                    ),
+                    icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
                     onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   filled: true,
@@ -157,75 +130,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderSide: BorderSide.none,
                   ),
                 ),
-              )
-                  .animate()
-                  .fadeIn(delay: 500.ms)
-                  .slideX(begin: 0.2, end: 0, delay: 500.ms),
-
+              ).animate().fadeIn(delay: 500.ms).slideX(begin: 0.2, end: 0, delay: 500.ms),
               const SizedBox(height: 12),
-
-              // Forgot Password
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextButton(
                   onPressed: () {},
-                  child: const Text(
-                    'نسيت كلمة المرور؟',
-                    style: TextStyle(color: AppTheme.goldColor),
-                  ),
+                  child: const Text('نسيت كلمة المرور؟', style: TextStyle(color: AppTheme.goldColor)),
                 ),
-              )
-                  .animate()
-                  .fadeIn(delay: 600.ms),
-
+              ).animate().fadeIn(delay: 600.ms),
               const SizedBox(height: 24),
-
-              // Login Button
               CustomButton(
                 text: 'تسجيل الدخول',
                 onPressed: _login,
                 isLoading: _isLoading,
-              )
-                  .animate()
-                  .fadeIn(delay: 700.ms)
-                  .slideY(begin: 0.2, end: 0, delay: 700.ms),
-
+              ).animate().fadeIn(delay: 700.ms).slideY(begin: 0.2, end: 0, delay: 700.ms),
               const SizedBox(height: 16),
-
-              // Guest Login Button
               CustomButton(
                 text: 'الدخول كضيف',
                 onPressed: _loginAsGuest,
                 isOutlined: true,
                 isLoading: _isLoading,
-              )
-                  .animate()
-                  .fadeIn(delay: 800.ms),
-
+              ).animate().fadeIn(delay: 800.ms),
               const SizedBox(height: 32),
-
-              // Register Link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'ليس لديك حساب؟',
-                    style: TextStyle(color: AppTheme.getSecondaryTextColor(context)),
-                  ),
+                  Text('ليس لديك حساب؟', style: TextStyle(color: AppTheme.getSecondaryTextColor(context))),
                   TextButton(
                     onPressed: () => Navigator.pushNamed(context, '/register'),
-                    child: const Text(
-                      'إنشاء حساب',
-                      style: TextStyle(
-                        color: AppTheme.goldColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    child: const Text('إنشاء حساب', style: TextStyle(color: AppTheme.goldColor, fontWeight: FontWeight.bold)),
                   ),
                 ],
-              )
-                  .animate()
-                  .fadeIn(delay: 900.ms),
+              ).animate().fadeIn(delay: 900.ms),
             ],
           ),
         ),
