@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // تم استيراد المكتبة هنا
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../providers/theme_manager.dart';
@@ -22,14 +23,14 @@ class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
   Color _themeColor = AppTheme.goldColor;
 
+  // تم ترتيب الشاشات لتتوافق مع الـ Indexes في الـ build
   final List<Widget> _screens = const [
     HomeScreen(),
     AllAdsScreen(),
     InteractiveMapScreen(),
-    SizedBox(), // Placeholder for FAB
-    WalletScreen(),
+    WalletScreen(), // Index 3
     ChatScreen(),
-    ProfileScreen(),
+    ProfileScreen(), // Index 5
   ];
 
   @override
@@ -44,15 +45,9 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   void _onItemTapped(int index) {
-    if (index == 3) {
-      _showQuickActionsSheet();
-      return;
-    }
-
-    final screenIndex = index > 3 ? index - 1 : index;
-
+    // تم إصلاح منطق التحقق من الـ Index ليتوافق مع الـ Indexes الحقيقية
     setState(() {
-      _currentIndex = screenIndex;
+      _currentIndex = index;
     });
   }
 
@@ -337,15 +332,7 @@ class _MainNavigationState extends State<MainNavigation> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: [
-          const HomeScreen(),
-          const AllAdsScreen(),
-          const InteractiveMapScreen(),
-          const SizedBox(),
-          const WalletScreen(),
-          const ChatScreen(),
-          const ProfileScreen(),
-        ],
+        children: _screens, // تم استخدام القائمة المرتبة مباشرة
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -364,9 +351,10 @@ class _MainNavigationState extends State<MainNavigation> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildNavItem(Icons.home_outlined, 'الرئيسية', 0),
-                _buildNavItem(Icons.store_outlined, 'المتجر', 1),
-                _buildNavItem(Icons.map_outlined, 'الخريطة', 2),
+                // تم تحديث استدعاء الأيقونات SVG هنا
+                _buildNavItem('assets/icons/svg/home.svg', 'الرئيسية', 0),
+                _buildNavItem('assets/icons/svg/merchant.svg', 'المتجر', 1),
+                _buildNavItem('assets/icons/svg/location.svg', 'الخريطة', 2),
                 // Golden FAB
                 GestureDetector(
                   onTap: _showQuickActionsSheet,
@@ -404,9 +392,10 @@ class _MainNavigationState extends State<MainNavigation> {
                       duration: 1.seconds,
                       curve: Curves.easeInOut,
                     ),
-                _buildNavItem(Icons.account_balance_wallet_outlined, 'المحفظة', 4),
-                _buildNavItem(Icons.chat_bubble_outline, 'الدردشة', 5),
-                _buildNavItem(Icons.person_outline, 'حسابي', 6),
+                // تم إصلاح الـ Indexes وتحديث أيقونات SVG
+                _buildNavItem('assets/icons/svg/wallet.svg', 'المحفظة', 3), // Index 3
+                _buildNavItem('assets/icons/svg/chat.svg', 'الدردشة', 4), // Index 4
+                _buildNavItem('assets/icons/svg/profile.svg', 'حسابي', 5), // Index 5
               ],
             ),
           ),
@@ -415,30 +404,32 @@ class _MainNavigationState extends State<MainNavigation> {
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, int index) {
+  // تم تعديل دالة _buildNavItem لاستقبال مسار SVG واستخدام SvgPicture
+  Widget _buildNavItem(String svgPath, String label, int index) {
     final isSelected = _currentIndex == index;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final color = isSelected
+        ? _themeColor
+        : (isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary);
 
     return GestureDetector(
       onTap: () => _onItemTapped(index),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            color: isSelected
-                ? _themeColor
-                : (isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary),
-            size: 24,
+          SvgPicture.asset(
+            svgPath, // تم استخدام SvgPicture
+            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+            width: 24,
+            height: 24,
           ),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
               fontSize: 10,
-              color: isSelected
-                  ? _themeColor
-                  : (isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary),
+              color: color,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),
