@@ -44,6 +44,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
+  flutter_launcher_icons: ^0.13.1
+
+# إعدادات الأندرويد فقط
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/icons/icon.png"
+  # لجعل الأيقونة متوافقة مع الأندرويد الحديث (Adaptive Icons)
+  adaptive_icon_background: "#FFFFFF" 
+  adaptive_icon_foreground: "assets/icons/icon.png"
+  min_sdk_android: 21
 
 flutter:
   uses-material-design: true
@@ -52,8 +62,10 @@ flutter:
       fonts:
         - asset: assets/fonts/Changa-SemiBold.ttf
           weight: 600
+
   assets:
     - .env
     - assets/images/
     - assets/icons/
+    - assets/icons/svg/
     - assets/animations/
