@@ -5,7 +5,7 @@ class AppTheme {
   // اللون الذهبي الأصلي الصافي (Pure Gold)
   static const Color goldColor = Color(0xFFFFD700);      // ذهبي صافي
   static const Color goldLight = Color(0xFFFFE135);      // ذهبي فاتح
-  static const Color goldDark = Color(0xFFB8860B);       // ذهبي داكن (GoldenRod)
+  static const Color goldDark = Color(0xFFB8860B);       // ذهبي داكن
   static const Color goldAccent = Color(0xFFFFC125);     // ذهبي برتقالي
   
   // ألوان أخرى
@@ -31,7 +31,13 @@ class AppTheme {
   static const Color warning = Color(0xFFFFB300);
   static const Color info = Color(0xFF1E88E5);
 
+  // دوال المساعدة
   static Color getCardColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? darkSurface : lightSurface;
+  }
+
+  static Color getSurfaceColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
         ? darkSurface : lightSurface;
   }
@@ -49,6 +55,11 @@ class AppTheme {
   static Color getDividerColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark 
         ? const Color(0xFF424242) : const Color(0xFFE0E0E0);
+  }
+
+  static Color getBackgroundColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? darkBackground : lightBackground;
   }
 
   static ThemeData get lightTheme {
