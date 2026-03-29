@@ -26,6 +26,10 @@ dependencies:
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
   flutter_dotenv: ^5.1.0
+  google_fonts: ^6.2.1
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  connectivity_plus: ^6.0.5
 
 dev_dependencies:
   flutter_test:
@@ -33,17 +37,11 @@ dev_dependencies:
   flutter_lints: ^3.0.1
   flutter_launcher_icons: ^0.13.1
 
-# إعدادات الأيقونة (لتحقيق الشفافية الكاملة على أندرويد)
 flutter_launcher_icons:
   android: true
   ios: true
-  # الأيقونة الأساسية للإصدارات القديمة
   image_path: "assets/icons/icon.png"
-  
-  # إعدادات الأيقونات التكيفية (Adaptive Icons) لأندرويد الحديث
-  # الخدعة: لون خلفية شفاف تماماً (Hex: #00000000)
-  adaptive_icon_background: "#00000000" 
-  # الشعار الشفاف كطبقة أمامية
+  adaptive_icon_background: "#00000000"
   adaptive_icon_foreground: "assets/icons/icon.png"
 
 flutter:
