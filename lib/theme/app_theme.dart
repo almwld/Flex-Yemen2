@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // اللون الذهبي الأصلي الصافي (Pure Gold)
-  static const Color goldColor = Color(0xFFFFD700);      // ذهبي صافي
-  static const Color goldLight = Color(0xFFFFE135);      // ذهبي فاتح
-  static const Color goldDark = Color(0xFFB8860B);       // ذهبي داكن
-  static const Color goldAccent = Color(0xFFFFC125);     // ذهبي برتقالي
+  // اللون الذهبي الداكن الهادئ (Metallic Gold - Darker)
+  static const Color goldColor = Color(0xFFD4AF37);      // ذهبي معدني داكن (هادئ)
+  static const Color goldLight = Color(0xFFE5C158);      // ذهبي فاتح باهت
+  static const Color goldDark = Color(0xFFB8941F);       // ذهبي داكن أكثر
+  static const Color goldAccent = Color(0xFFC9A227);     // ذهبي متوسط
   
   // ألوان أخرى
   static const Color primaryColor = Color(0xFF1E88E5);
