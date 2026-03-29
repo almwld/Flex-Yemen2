@@ -17,84 +17,36 @@ class PrivacyPolicyScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSection(
-              context,
-              'مقدمة',
-              'نحن في Flex Yemen نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. توضح هذه السياسة كيفية جمعنا واستخدامنا وحمايتنا لمعلوماتك.',
-            ),
-            _buildBulletSection(
-              context,
-              'المعلومات التي نجمعها',
-              [
-                'المعلومات الشخصية: الاسم، رقم الهاتف، البريد الإلكتروني، العنوان',
-                'معلومات المعاملات: الطلبات، عمليات الشراء، سجل الدفع',
-                'المعلومات التقنية: نوع الجهاز، نظام التشغيل، عنوان IP',
-                'معلومات الموقع: الموقع الجغرافي لتحسين الخدمة',
-              ],
-            ),
-            _buildBulletSection(
-              context,
-              'استخدام المعلومات',
-              [
-                'تشغيل التطبيق وتقديم الخدمات',
-                'معالجة الطلبات والمدفوعات',
-                'إرسال الإشعارات والتحديثات',
-                'تقديم دعم العملاء',
-                'تحسين تجربة المستخدم',
-              ],
-            ),
-            _buildBulletSection(
-              context,
-              'مشاركة البيانات',
-              [
-                'لا نبيع بياناتك لأي طرف ثالث',
-                'نشارك فقط مع مزودي الدفع وشركات الشحن',
-                'قد نشارك مع السلطات إذا تطلب القانون ذلك',
-              ],
-            ),
-            _buildBulletSection(
-              context,
-              'حماية البيانات',
-              [
-                'نستخدم تشفير SSL لحماية البيانات',
-                'أنظمة حماية متقدمة ضد الاختراق',
-                'تحديثات أمنية منتظمة',
-                'فريق أمن متخصص',
-              ],
-            ),
-            _buildBulletSection(
-              context,
-              'حقوق المستخدم',
-              [
-                'الحق في الوصول إلى بياناتك',
-                'الحق في تعديل معلوماتك',
-                'الحق في حذف حسابك',
-                'الحق في إيقاف الإشعارات',
-                'الحق في الاعتراض على معالجة البيانات',
-              ],
-            ),
-            _buildSection(
-              context,
-              'ملفات تعريف الارتباط',
-              'نستخدم ملفات تعريف الارتباط لتحسين تجربتك. يمكنك تعطيلها من إعدادات المتصفح.',
-            ),
-            _buildSection(
-              context,
-              'التغييرات على السياسة',
-              'قد نقوم بتحديث هذه السياسة من وقت لآخر. سيتم إعلامك بأي تغييرات جوهرية.',
-            ),
-            _buildSection(
-              context,
-              'اتصل بنا',
-              'لأي استفسارات حول سياسة الخصوصية، يرجى التواصل معنا على: privacy@flexyemen.com',
-            ),
+            _buildSection(context, 'مقدمة', 'نحن في Flex Yemen نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. توضح هذه السياسة كيفية جمعنا واستخدامنا وحمايتنا لمعلوماتك.'),
+            _buildBulletSection(context, 'المعلومات التي نجمعها', [
+              'المعلومات الشخصية: الاسم، رقم الهاتف، البريد الإلكتروني، العنوان',
+              'معلومات المعاملات: الطلبات، عمليات الشراء، سجل الدفع',
+              'المعلومات التقنية: نوع الجهاز، نظام التشغيل، عنوان IP',
+              'معلومات الموقع: الموقع الجغرافي لتحسين الخدمة',
+            ]),
+            _buildBulletSection(context, 'استخدام المعلومات', [
+              'تشغيل التطبيق وتقديم الخدمات',
+              'معالجة الطلبات والمدفوعات',
+              'إرسال الإشعارات والتحديثات',
+              'تقديم دعم العملاء',
+              'تحسين تجربة المستخدم',
+            ]),
+            _buildBulletSection(context, 'مشاركة البيانات', [
+              'لا نبيع بياناتك لأي طرف ثالث',
+              'نشارك فقط مع مزودي الدفع وشركات الشحن',
+              'قد نشارك مع السلطات إذا تطلب القانون ذلك',
+            ]),
+            _buildBulletSection(context, 'حقوق المستخدم', [
+              'الحق في الوصول إلى بياناتك',
+              'الحق في تعديل معلوماتك',
+              'الحق في حذف حسابك',
+              'الحق في إيقاف الإشعارات',
+            ]),
+            _buildSection(context, 'اتصل بنا', 'لأي استفسارات، يرجى التواصل معنا على: privacy@flexyemen.com'),
             const SizedBox(height: 24),
             Text(
               'آخر تحديث: مارس 2026',
-              style: TextStyle(
-                color: AppTheme.getSecondaryTextColor(context),
-                fontSize: 12,
-              ),
+              style: TextStyle(color: AppTheme.getSecondaryTextColor(context), fontSize: 12),
             ),
           ],
         ),
@@ -106,20 +58,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontFamily: 'Changa',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: AppTheme.goldColor,
-          ),
-        ),
+        Text(title, style: const TextStyle(fontFamily: 'Changa', fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.goldColor)),
         const SizedBox(height: 8),
-        Text(
-          content,
-          style: const TextStyle(height: 1.6),
-        ),
+        Text(content, style: const TextStyle(height: 1.6)),
         const SizedBox(height: 24),
       ],
     );
@@ -129,15 +70,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontFamily: 'Changa',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: AppTheme.goldColor,
-          ),
-        ),
+        Text(title, style: const TextStyle(fontFamily: 'Changa', fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.goldColor)),
         const SizedBox(height: 8),
         ...items.map((item) => _buildBulletPoint(context, item)),
         const SizedBox(height: 24),
@@ -151,20 +84,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '- ',
-            style: TextStyle(
-              fontSize: 14,
-              color: AppTheme.goldColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 14, height: 1.5),
-            ),
-          ),
+          const Text('- ', style: TextStyle(fontSize: 14, color: AppTheme.goldColor, fontWeight: FontWeight.bold)),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 14, height: 1.5))),
         ],
       ),
     );
