@@ -7,7 +7,8 @@ class AppTheme {
   static const Color secondaryColor = Color(0xFF43A047);
   static const Color accentColor = Color(0xFFFFB300);
   static const Color goldColor = Color(0xFFFFD700);
-  static const Color goldLight = Color(0xFFFFE066);  // ذهبي فاتح
+  static const Color goldLight = Color(0xFFFFE066);
+  static const Color goldDark = Color(0xFFFFA000);  // ذهبي داكن
   
   // ألوان الخلفيات
   static const Color darkBackground = Color(0xFF121212);
@@ -24,10 +25,10 @@ class AppTheme {
   static const Color lightTextSecondary = Color(0xFFBDBDBD);
   
   // ألوان الحالات
-  static const Color error = Color(0xFFE53935);      // خطأ
-  static const Color success = Color(0xFF43A047);    // نجاح
-  static const Color warning = Color(0xFFFFB300);    // تحذير
-  static const Color info = Color(0xFF1E88E5);       // معلومات
+  static const Color error = Color(0xFFE53935);
+  static const Color success = Color(0xFF43A047);
+  static const Color warning = Color(0xFFFFB300);
+  static const Color info = Color(0xFF1E88E5);
 
   // دوال مساعدة للحصول على الألوان حسب الثيم
   static Color getCardColor(BuildContext context) {
@@ -58,6 +59,12 @@ class AppTheme {
     return Theme.of(context).brightness == Brightness.dark 
         ? darkSurface 
         : lightSurface;
+  }
+
+  static Color getDividerColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? const Color(0xFF424242) 
+        : const Color(0xFFE0E0E0);
   }
 
   static ThemeData get lightTheme {
@@ -96,6 +103,10 @@ class AppTheme {
         selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
+      ),
+      dividerTheme: const DividerThemeData(
+        color: Color(0xFFE0E0E0),
+        thickness: 1,
       ),
       textTheme: TextTheme(
         displayLarge: GoogleFonts.changa(fontSize: 32, fontWeight: FontWeight.bold, color: darkText),
@@ -187,6 +198,10 @@ class AppTheme {
         selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
+      ),
+      dividerTheme: const DividerThemeData(
+        color: Color(0xFF424242),
+        thickness: 1,
       ),
       textTheme: TextTheme(
         displayLarge: GoogleFonts.changa(fontSize: 32, fontWeight: FontWeight.bold, color: lightText),

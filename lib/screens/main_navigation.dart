@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // تم استيراد المكتبة هنا
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../providers/theme_manager.dart';
@@ -23,15 +23,14 @@ class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
   Color _themeColor = AppTheme.goldColor;
 
-  // تم ترتيب الشاشات لتتوافق مع الـ Indexes في الـ build
   final List<Widget> _screens = const [
-    HomeScreen(),
-    AllAdsScreen(),
-    InteractiveMapScreen(),
-    SizedBox(), // Placeholder for FAB
-    WalletScreen(), // Index 4
-    ChatScreen(), // Index 5
-    ProfileScreen(), // Index 6
+    HomeScreen(),      // Index 0
+    AllAdsScreen(),    // Index 1
+    InteractiveMapScreen(), // Index 2
+    SizedBox(),        // Index 3 - Placeholder for FAB
+    WalletScreen(),    // Index 4
+    ChatScreen(),      // Index 5
+    ProfileScreen(),   // Index 6
   ];
 
   @override
@@ -50,8 +49,7 @@ class _MainNavigationState extends State<MainNavigation> {
       _showQuickActionsSheet();
       return;
     }
-
-    // تم إصلاح منطق التحقق من الـ Index ليتوافق مع الـ Indexes الحقيقية
+    
     setState(() {
       _currentIndex = index;
     });
@@ -198,7 +196,6 @@ class _MainNavigationState extends State<MainNavigation> {
 
   void _showQuickSettings() {
     final themeManager = context.read<ThemeManager>();
-
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -338,7 +335,7 @@ class _MainNavigationState extends State<MainNavigation> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: _screens, // تم استخدام القائمة المرتبة مباشرة
+        children: _screens,
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -357,51 +354,20 @@ class _MainNavigationState extends State<MainNavigation> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // تم تحديث استدعاء الأيقونات SVG هنا
+                // الرئيسية (0)
                 _buildNavItem('assets/icons/svg/home.svg', 'الرئيسية', 0),
+                // المتجر (1)
                 _buildNavItem('assets/icons/svg/merchant.svg', 'المتجر', 1),
+                // الخريطة (2)
                 _buildNavItem('assets/icons/svg/location.svg', 'الخريطة', 2),
-                // Golden FAB
-                GestureDetector(
-                  onTap: _showQuickActionsSheet,
-                  child: Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [_themeColor, Color.lerp(_themeColor, Colors.white, 0.3) ?? _themeColor],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(28),
-                      boxShadow: [
-                        BoxShadow(
-                          color: _themeColor.withOpacity(0.4),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.black,
-                      size: 32,
-                    ),
-                  ),
-                )
-                    .animate(
-                      onPlay: (controller) => controller.repeat(reverse: true),
-                    )
-                    .scale(
-                      begin: const Offset(1, 1),
-                      end: const Offset(1.05, 1.05),
-                      duration: 1.seconds,
-                      curve: Curves.easeInOut,
-                    ),
-                // تم إصلاح الـ Indexes وتحديث أيقونات SVG
-                _buildNavItem('assets/icons/svg/wallet.svg', 'المحفظة', 4), // Index 4
-                _buildNavItem('assets/icons/svg/chat.svg', 'الدردشة', 5), // Index 5
-                _buildNavItem('assets/icons/svg/profile.svg', 'حسابي', 6), // Index 6
+                // FAB (3)
+                _buildFAB(),
+                // المحفظة (4)
+                _buildNavItem('assets/icons/svg/wallet.svg', 'المحفظة', 4),
+                // الدردشة (5)
+                _buildNavItem('assets/icons/svg/chat.svg', 'الدردشة', 5),
+                // حسابي (6)
+                _buildNavItem('assets/icons/svg/profile.svg', 'حسابي', 6),
               ],
             ),
           ),
@@ -410,7 +376,47 @@ class _MainNavigationState extends State<MainNavigation> {
     );
   }
 
-  // تم تعديل دالة _buildNavItem لاستقبال مسار SVG واستخدام SvgPicture
+  Widget _buildFAB() {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: _showQuickActionsSheet,
+        customBorder: const CircleBorder(),
+        child: Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [_themeColor, Color.lerp(_themeColor, Colors.white, 0.3) ?? _themeColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: _themeColor.withOpacity(0.4),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: const Icon(
+            Icons.add,
+            color: Colors.black,
+            size: 32,
+          ),
+        ),
+      ),
+    ).animate(
+      onPlay: (controller) => controller.repeat(reverse: true),
+    ).scale(
+      begin: const Offset(1, 1),
+      end: const Offset(1.05, 1.05),
+      duration: 1.seconds,
+      curve: Curves.easeInOut,
+    );
+  }
+
   Widget _buildNavItem(String svgPath, String label, int index) {
     final isSelected = _currentIndex == index;
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -419,27 +425,39 @@ class _MainNavigationState extends State<MainNavigation> {
         ? _themeColor
         : (isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary);
 
-    return GestureDetector(
-      onTap: () => _onItemTapped(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            svgPath, // تم استخدام SvgPicture
-            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-            width: 24,
-            height: 24,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              color: color,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+    return Expanded(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _onItemTapped(index),
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(
+                  svgPath,
+                  colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+                  width: 24,
+                  height: 24,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: color,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

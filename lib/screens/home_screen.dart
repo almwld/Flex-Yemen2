@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../theme/app_theme.dart';
-import '../widgets/custom_app_bar.dart';
 import '../models/product_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -59,39 +58,29 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: isDark ? AppTheme.darkBackground : AppTheme.lightBackground,
-      appBar: const CustomAppBar(showLogo: true),
+      // تم إزالة AppBar لأن MainNavigation توفر AppBar بالفعل
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 8),
             // Carousel Slider
             _buildCarousel(),
-
             const SizedBox(height: 16),
-
             // Flex Garden Promo Card
             _buildGardenPromo(),
-
             const SizedBox(height: 24),
-
             // Categories
             _buildCategories(),
-
             const SizedBox(height: 24),
-
             // Weekly Auctions
             _buildAuctionsSection(),
-
             const SizedBox(height: 24),
-
             // Real Estate Section
             _buildRealEstateSection(),
-
             const SizedBox(height: 24),
-
             // Suggested Products
             _buildSuggestedProducts(),
-
             const SizedBox(height: 24),
           ],
         ),
