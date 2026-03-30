@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -17,19 +17,25 @@ allprojects {
     }
 }
 
-subprojects { subproject ->
-    subproject.afterEvaluate { proj ->
-        try {
-            proj.tasks.withType(org.gradle.api.tasks.compile.JavaCompile).configureEach { jc ->
-                jc.sourceCompatibility = JavaVersion.VERSION_17
-                jc.targetCompatibility = JavaVersion.VERSION_17
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
             }
-        } catch (e) { }
-        try {
-            proj.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach { kt ->
-                kt.kotlinOptions { jvmTarget = "17" }
+        }
+        project.tasks.withType(JavaCompile).configureEach {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
+        project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            kotlinOptions {
+                jvmTarget = "17"
             }
-        } catch (e) { }
+        }
     }
 }
 
