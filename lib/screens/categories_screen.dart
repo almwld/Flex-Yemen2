@@ -5,23 +5,27 @@ import '../widgets/simple_app_bar.dart';
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
 
+  final List<String> categories = const ['إلكترونيات', 'منزل', 'أزياء', 'سيارات', 'العقارات', 'وظائف'];
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: isDark ? AppTheme.darkBackground : AppTheme.lightBackground,
       appBar: const SimpleAppBar(title: 'الفئات'),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.category, size: 80, color: AppTheme.goldColor.withOpacity(0.5)),
-            const SizedBox(height: 16),
-            const Text('الفئات', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            Text('سيتم إضافة هذه الميزة قريباً', style: TextStyle(color: AppTheme.getSecondaryTextColor(context))),
-          ],
-        ),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(16),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 0.9, crossAxisSpacing: 12, mainAxisSpacing: 12),
+        itemCount: categories.length,
+        itemBuilder: (context, i) {
+          return GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/category', arguments: categories[i]),
+            child: Container(
+              decoration: BoxDecoration(color: AppTheme.getCardColor(context), borderRadius: BorderRadius.circular(12)),
+              child: Center(child: Text(categories[i], textAlign: TextAlign.center)),
+            ),
+          );
+        },
       ),
     );
   }

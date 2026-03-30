@@ -9,7 +9,7 @@ import 'services/connection_checker.dart';
 import 'services/cache/local_storage_service.dart';
 import 'theme/app_theme.dart';
 
-// Screens - Main
+// Screens - Main (imports kept; ensure files exist)
 import 'screens/splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
@@ -110,12 +110,12 @@ import 'screens/onboarding_screen.dart';
 import 'screens/walkthrough_screen.dart';
 import 'screens/change_password_screen.dart';
 import 'screens/two_factor_screen.dart';
-import 'screens/biometric_auth_screen.dart';
+import 'screens/biometric_screen.dart';
 import 'screens/connected_devices_screen.dart';
 import 'screens/login_history_screen.dart';
 import 'screens/privacy_settings_screen.dart';
 
-// Category Screens
+// Category Screens (kept as before)
 import 'screens/categories/health_beauty_screen.dart';
 import 'screens/categories/home_appliances_screen.dart';
 import 'screens/categories/kitchen_food_screen.dart';
@@ -183,6 +183,20 @@ import 'screens/categories/birthday_supplies_screen.dart';
 import 'screens/categories/events_supplies_screen.dart';
 import 'screens/categories/traditional_food_screen.dart';
 
+// --- Screens added later by assistant (ensure these files exist) ---
+import 'screens/appearance_screen.dart';
+import 'screens/chat_settings_screen.dart';
+import 'screens/map_nearby_screen.dart';
+import 'screens/upload_documents_screen.dart';
+import 'screens/sliders_screen.dart';
+import 'screens/wheels_investments_screen.dart';
+import 'screens/product_recommendations_screen.dart';
+import 'screens/reels_screen.dart';
+import 'screens/stores_nearby_screen.dart';
+import 'screens/biometric_screen.dart';
+import 'screens/privacy_block_screen.dart';
+import 'screens/profile_picture_status_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -206,12 +220,10 @@ void main() async {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
   runApp(const MyApp());
 }
 
@@ -250,10 +262,7 @@ class MyApp extends StatelessWidget {
             themeMode: themeManager.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             locale: const Locale('ar', 'YE'),
             builder: (context, child) {
-              return Directionality(
-                textDirection: TextDirection.rtl,
-                child: child!,
-              );
+              return Directionality(textDirection: TextDirection.rtl, child: child!);
             },
             initialRoute: '/',
             routes: {
@@ -357,12 +366,12 @@ class MyApp extends StatelessWidget {
               '/walkthrough': (context) => const WalkthroughScreen(),
               '/change_password': (context) => const ChangePasswordScreen(),
               '/two_factor': (context) => const TwoFactorScreen(),
-              '/biometric_auth': (context) => const BiometricAuthScreen(),
+              '/biometric_auth': (context) => const BiometricScreen(),
               '/connected_devices': (context) => const ConnectedDevicesScreen(),
               '/login_history': (context) => const LoginHistoryScreen(),
               '/privacy_settings': (context) => const PrivacySettingsScreen(),
 
-              // Category Routes
+              // Category Routes (kept as before)
               '/health_beauty': (context) => const HealthBeautyScreen(),
               '/home_appliances': (context) => const HomeAppliancesScreen(),
               '/kitchen_food': (context) => const KitchenFoodScreen(),
@@ -429,6 +438,20 @@ class MyApp extends StatelessWidget {
               '/birthday_supplies': (context) => const BirthdaySuppliesScreen(),
               '/events_supplies': (context) => const EventsSuppliesScreen(),
               '/traditional_food': (context) => const TraditionalFoodScreen(),
+
+              // Routes for screens created later by assistant
+              '/appearance': (context) => const AppearanceScreen(),
+              '/chat_settings': (context) => const ChatSettingsScreen(),
+              '/map_nearby': (context) => const MapNearbyScreen(),
+              '/upload_documents': (context) => const UploadDocumentsScreen(),
+              '/sliders': (context) => const SlidersScreen(),
+              '/wheels_investments': (context) => const WheelsInvestmentsScreen(),
+              '/product_recommendations': (context) => const ProductRecommendationsScreen(),
+              '/reels': (context) => const ReelsScreen(),
+              '/stores_nearby_custom': (context) => const StoresNearbyScreen(),
+              '/biometric_custom': (context) => const BiometricScreen(),
+              '/privacy_block': (context) => const PrivacyBlockScreen(),
+              '/profile_picture_status': (context) => const ProfilePictureStatusScreen(),
             },
           );
         },
