@@ -30,6 +30,7 @@ dependencies:
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
   connectivity_plus: ^6.0.5
+  share_plus: ^6.3.0
 
 dev_dependencies:
   flutter_test:
