@@ -1,0 +1,45 @@
+buildscript {
+    ext.kotlin_version = '1.9.0'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+subprojects { subproject ->
+    subproject.afterEvaluate { proj ->
+        try {
+            proj.tasks.withType(org.gradle.api.tasks.compile.JavaCompile).configureEach { jc ->
+                jc.sourceCompatibility = JavaVersion.VERSION_17
+                jc.targetCompatibility = JavaVersion.VERSION_17
+            }
+        } catch (e) { }
+        try {
+            proj.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach { kt ->
+                kt.kotlinOptions { jvmTarget = "17" }
+            }
+        } catch (e) { }
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
