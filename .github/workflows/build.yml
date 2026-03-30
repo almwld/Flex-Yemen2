@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,31 +21,19 @@ jobs:
           flutter-version: '3.22.0'
           channel: 'stable'
 
-      - name: Setup Java
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Create Android project structure
+      - name: Create Android project structure (basic folders & manifest placeholders)
         run: |
-          # Create necessary Android directories
+          # Create necessary Android directories if missing (no placeholder icons)
           mkdir -p android/app/src/main/kotlin/com/flexyemen/flex_yemen
           mkdir -p android/gradle/wrapper
           mkdir -p android/app/src/main/res/values
           mkdir -p android/app/src/main/res/drawable
-          mkdir -p android/app/src/main/res/mipmap-hdpi
-          mkdir -p android/app/src/main/res/mipmap-mdpi
-          mkdir -p android/app/src/main/res/mipmap-xhdpi
-          mkdir -p android/app/src/main/res/mipmap-xxhdpi
-          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
-          
-          # Create placeholder launcher icons
-          echo 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==' | base64 -d > android/app/src/main/res/mipmap-hdpi/ic_launcher.png
-          cp android/app/src/main/res/mipmap-hdpi/ic_launcher.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
-          cp android/app/src/main/res/mipmap-hdpi/ic_launcher.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
-          cp android/app/src/main/res/mipmap-hdpi/ic_launcher.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
-          cp android/app/src/main/res/mipmap-hdpi/ic_launcher.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
       - name: Create gradle.properties
         run: |
@@ -113,7 +101,7 @@ jobs:
           }
           EOF
 
-      - name: Create app build.gradle
+      - name: Create app build.gradle (with Java/Kotlin JVM target 17)
         run: |
           cat > android/app/build.gradle << 'EOF'
           plugins {
@@ -121,7 +109,7 @@ jobs:
               id "kotlin-android"
               id "dev.flutter.flutter-gradle-plugin"
           }
-          
+
           def localProperties = new Properties()
           def localPropertiesFile = rootProject.file('local.properties')
           if (localPropertiesFile.exists()) {
@@ -129,35 +117,35 @@ jobs:
                   localProperties.load(reader)
               }
           }
-          
+
           def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
           if (flutterVersionCode == null) {
               flutterVersionCode = '1'
           }
-          
+
           def flutterVersionName = localProperties.getProperty('flutter.versionName')
           if (flutterVersionName == null) {
               flutterVersionName = '1.0'
           }
-          
+
           android {
               namespace "com.flexyemen.flex_yemen"
               compileSdkVersion 34
               ndkVersion flutter.ndkVersion
-              
+
               compileOptions {
-                  sourceCompatibility JavaVersion.VERSION_1_8
-                  targetCompatibility JavaVersion.VERSION_1_8
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
               }
-              
+
               kotlinOptions {
-                  jvmTarget = '1.8'
+                  jvmTarget = '17'
               }
-              
+
               sourceSets {
                   main.java.srcDirs += 'src/main/kotlin'
               }
-              
+
               defaultConfig {
                   applicationId "com.flexyemen.flex_yemen"
                   minSdkVersion 21
@@ -165,7 +153,7 @@ jobs:
                   versionCode flutterVersionCode.toInteger()
                   versionName flutterVersionName
               }
-              
+
               buildTypes {
                   release {
                       signingConfig signingConfigs.debug
@@ -174,7 +162,7 @@ jobs:
                   }
               }
           }
-          
+
           flutter {
               source '../..'
           }
@@ -229,9 +217,9 @@ jobs:
         run: |
           cat > android/app/src/main/kotlin/com/flexyemen/flex_yemen/MainActivity.kt << 'EOF'
           package com.flexyemen.flex_yemen
-          
+
           import io.flutter.embedding.android.FlutterActivity
-          
+
           class MainActivity: FlutterActivity() {
           }
           EOF
@@ -267,6 +255,14 @@ jobs:
 
       - name: Get Flutter dependencies
         run: flutter pub get
+
+      - name: Ensure flutter_launcher_icons is available (dev dependency) and generate launcher icons
+        run: |
+          # Add the dev dependency if it's missing (idempotent)
+          flutter pub add --dev flutter_launcher_icons || true
+          flutter pub get
+          # Run the flutter launcher icons generator (will use configuration in pubspec.yaml)
+          flutter pub run flutter_launcher_icons:main
 
       - name: Create .env file
         run: |
