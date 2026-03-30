@@ -27,9 +27,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Create Android project structure (basic folders & manifest placeholders)
+      - name: Create Android project structure (basic folders)
         run: |
-          # Create necessary Android directories if missing (no placeholder icons)
           mkdir -p android/app/src/main/kotlin/com/flexyemen/flex_yemen
           mkdir -p android/gradle/wrapper
           mkdir -p android/app/src/main/res/values
@@ -256,12 +255,24 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Ensure flutter_launcher_icons is available (dev dependency) and generate launcher icons
+      - name: Ensure flutter_launcher_icons is available and generate Android-only launcher icons
         run: |
           # Add the dev dependency if it's missing (idempotent)
           flutter pub add --dev flutter_launcher_icons || true
           flutter pub get
-          # Run the flutter launcher icons generator (will use configuration in pubspec.yaml)
+
+          # Ensure iOS generation is disabled in pubspec.yaml (make it Android-only)
+          if grep -q "flutter_launcher_icons:" pubspec.yaml; then
+            sed -n '/flutter_launcher_icons:/,/flutter:/p' pubspec.yaml || true
+            # replace 'ios: true' with 'ios: false' if present
+            sed -i 's/ios:[[:space:]]*true/ios: false/g' pubspec.yaml || true
+          fi
+
+          # Remove any partial iOS assets to avoid errors
+          rm -rf ios/Runner/Assets.xcassets || true
+          rm -rf ios/Runner/Images.xcassets || true
+
+          # Run generator (will create Android icons only)
           flutter pub run flutter_launcher_icons:main
 
       - name: Create .env file
